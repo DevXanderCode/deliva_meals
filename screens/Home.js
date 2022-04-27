@@ -332,6 +332,16 @@ const Home = () => {
     initialCurrentLocation,
   );
 
+  function onSelectCategory(category) {
+    const restaurantList = restaurantData.filter(a =>
+      a.categories.includes(category?.id),
+    );
+
+    setRestaurants(restaurantList);
+
+    setSelectedCategory(category);
+  }
+
   function renderHeader() {
     return (
       <View style={{flexDirection: 'row', height: 50, marginTop: SIZES?.base}}>
@@ -371,8 +381,28 @@ const Home = () => {
   function renderMainCategories() {
     const renderItem = ({item}) => {
       return (
-        <TouchableOpacity style={[styles?.mainCategaoriesBtn, styles?.shadow]}>
-          <View style={styles?.mainCategaoriesImgContainer}>
+        <TouchableOpacity
+          style={[
+            styles?.mainCategaoriesBtn,
+            styles?.shadow,
+            {
+              backgroundColor:
+                selectedCategory?.id === item?.id
+                  ? COLORS?.primary
+                  : COLORS?.white,
+            },
+          ]}
+          onPress={() => onSelectCategory(item)}>
+          <View
+            style={[
+              styles?.mainCategaoriesImgContainer,
+              {
+                backgroundColor:
+                  selectedCategory?.id === item?.id
+                    ? COLORS?.white
+                    : COLORS?.lightGray,
+              },
+            ]}>
             <Image
               source={item?.icon}
               resizeMode="contain"
@@ -382,7 +412,10 @@ const Home = () => {
           <Text
             style={{
               marginTop: SIZES?.padding,
-              color: COLORS?.white,
+              color:
+                selectedCategory?.id === item?.id
+                  ? COLORS?.white
+                  : COLORS?.black,
               ...FONTS?.body5,
             }}>
             {item?.name}
@@ -446,7 +479,6 @@ const styles = StyleSheet.create({
   mainCategaoriesBtn: {
     padding: SIZES?.padding,
     paddingBottom: SIZES?.padding * 2,
-    backgroundColor: COLORS?.primary,
     borderRadius: SIZES?.radius,
     alignItems: 'center',
     justifyContent: 'center',
