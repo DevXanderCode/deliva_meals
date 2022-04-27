@@ -14,7 +14,7 @@ const Home = () => {
   // Dummy Datas
 
   const initialCurrentLocation = {
-    streetName: 'Kuching',
+    streetName: 'Popson',
     gps: {
       latitude: 1.5496614931250685,
       longitude: 110.36381866919922,
@@ -324,6 +324,14 @@ const Home = () => {
       ],
     },
   ];
+
+  const [categories, setCategories] = React.useState(categoryData);
+  const [selectedCategory, setSelectedCategory] = React.useState(null);
+  const [restaurants, setRestaurants] = React.useState(restaurantData);
+  const [currentLocation, setCurrentLocation] = React.useState(
+    initialCurrentLocation,
+  );
+
   function renderHeader() {
     return (
       <View style={{flexDirection: 'row', height: 50, marginTop: SIZES?.base}}>
@@ -340,16 +348,8 @@ const Home = () => {
         </TouchableOpacity>
 
         <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-          <View
-            style={{
-              width: '70%',
-              height: '100%',
-              alignItems: 'center',
-              justifyContent: 'center',
-              backgroundColor: COLORS?.lightGray3,
-              borderRadius: SIZES?.radius,
-            }}>
-            <Text style={{...FONTS.h3}}>Location</Text>
+          <View style={styles?.currentLocation}>
+            <Text style={{...FONTS.h3}}>{currentLocation?.streetName} </Text>
           </View>
         </View>
 
@@ -367,8 +367,19 @@ const Home = () => {
       </View>
     );
   }
+
+  function renderMainCategories() {
+    return (
+      <View style={{padding: SIZES?.padding}}>
+        <Text style={{...FONTS.h1}}>{'Main\nCategories'}</Text>
+      </View>
+    );
+  }
   return (
-    <SafeAreaView style={styles?.container}>{renderHeader()}</SafeAreaView>
+    <SafeAreaView style={styles?.container}>
+      {renderHeader()}
+      {renderMainCategories()}
+    </SafeAreaView>
   );
 };
 
@@ -394,6 +405,14 @@ const styles = StyleSheet.create({
   headerImgContainer: {
     width: 50,
     justifyContent: 'center',
+  },
+  currentLocation: {
+    width: '70%',
+    height: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: COLORS?.lightGray3,
+    borderRadius: SIZES?.radius,
   },
 });
 
