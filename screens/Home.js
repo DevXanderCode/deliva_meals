@@ -371,26 +371,22 @@ const Home = () => {
   function renderMainCategories() {
     const renderItem = ({item}) => {
       return (
-        <TouchableOpacity
-          style={{
-            padding: SIZES?.padding,
-            paddingBottom: SIZES?.padding * 2,
-            backgroundColor: COLORS?.primary,
-            borderRadius: SIZES?.radius,
-            alignItems: 'center',
-            justifyContent: 'center',
-            marginRight: SIZES?.padding,
-            ...styles?.shadow,
-          }}>
-          <View
+        <TouchableOpacity style={[styles?.mainCategaoriesBtn, styles?.shadow]}>
+          <View style={styles?.mainCategaoriesImgContainer}>
+            <Image
+              source={item?.icon}
+              resizeMode="contain"
+              style={styles?.headerImg}
+            />
+          </View>
+          <Text
             style={{
-              width: 50,
-              height: 50,
-              borderRadius: 25,
-              backgroundColor: COLORS?.white,
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}></View>
+              marginTop: SIZES?.padding,
+              color: COLORS?.white,
+              ...FONTS?.body5,
+            }}>
+            {item?.name}
+          </Text>
         </TouchableOpacity>
       );
     };
@@ -446,6 +442,23 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: COLORS?.lightGray3,
     borderRadius: SIZES?.radius,
+  },
+  mainCategaoriesBtn: {
+    padding: SIZES?.padding,
+    paddingBottom: SIZES?.padding * 2,
+    backgroundColor: COLORS?.primary,
+    borderRadius: SIZES?.radius,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: SIZES?.padding,
+  },
+  mainCategaoriesImgContainer: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    backgroundColor: COLORS?.white,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
 
