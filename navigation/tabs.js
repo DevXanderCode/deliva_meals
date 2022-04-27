@@ -54,36 +54,39 @@ const TabBarCustomButton = ({accessibilityState, children, onPress}) => {
 };
 
 const CustomTabBar = props => {
-  if (isIphoneX()) {
-    return (
-      <View>
-        <View
-          style={{
-            bottom: 0,
-            left: 0,
-            right: 0,
-            position: 'absolute',
-            height: 30,
-            backgroundColor: COLORS?.white,
-          }}
-        />
-        <BottomTabBar {...props.props} />
-      </View>
-    );
-  } else {
-    return <BottomTabBar {...props.props} />;
-  }
+  //   if (isIphoneX()) {
+  return (
+    <View>
+      <View
+        style={{
+          bottom: 0,
+          left: 0,
+          right: 0,
+          position: 'absolute',
+          height: 30,
+          backgroundColor: COLORS?.white,
+        }}
+      />
+      <BottomTabBar {...props.props} />
+    </View>
+  );
+  //   } else {
+  //     return <BottomTabBar {...props.props} style={{height: 70}} />;
+  //   }
 };
 
 const Tabs = () => {
   return (
     <Tab.Navigator
       screenOptions={{
+        headerShown: false,
         tabBarShowLabel: false,
         tabBarStyle: {
           backgroundColor: 'transparent',
           borderTopWidth: 0,
           elevation: 0,
+          height: 70,
+          //   position: 'absolute',
         },
       }}
       tabBar={props => <CustomTabBar props={props} />}>
