@@ -13,14 +13,43 @@ import {COLORS, icons, images, SIZES, FONTS} from '../constants';
 const Home = () => {
   function renderHeader() {
     return (
-      <View style={{flexDirection: 'row', height: 50}}>
+      <View style={{flexDirection: 'row', height: 50, marginTop: SIZES?.base}}>
         <TouchableOpacity
           style={{
-            width: 50,
-            paddingLeft: SIZES?.padding,
-            justifyContent: 'center',
+            ...styles?.headerImgContainer,
+            paddingLeft: SIZES?.padding * 2,
           }}>
-          <Image source={icons.nearby} />
+          <Image
+            source={icons.nearby}
+            resizeMode="contain"
+            style={styles?.headerImg}
+          />
+        </TouchableOpacity>
+
+        <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+          <View
+            style={{
+              width: '70%',
+              height: '100%',
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: COLORS?.lightGray3,
+              borderRadius: SIZES?.radius,
+            }}>
+            <Text style={{...FONTS.h3}}>Location</Text>
+          </View>
+        </View>
+
+        <TouchableOpacity
+          style={{
+            ...styles?.headerImgContainer,
+            paddingRight: SIZES?.padding * 2,
+          }}>
+          <Image
+            source={icons?.basket}
+            resizeMode="contain"
+            style={styles?.headerImg}
+          />
         </TouchableOpacity>
       </View>
     );
@@ -44,6 +73,14 @@ const styles = StyleSheet.create({
     elevation: 1,
     shadowOpacity: 0.1,
     shadowRadius: 3,
+  },
+  headerImg: {
+    width: 30,
+    height: 30,
+  },
+  headerImgContainer: {
+    width: 50,
+    justifyContent: 'center',
   },
 });
 
