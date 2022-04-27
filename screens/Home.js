@@ -369,9 +369,42 @@ const Home = () => {
   }
 
   function renderMainCategories() {
+    const renderItem = ({item}) => {
+      return (
+        <TouchableOpacity
+          style={{
+            padding: SIZES?.padding,
+            paddingBottom: SIZES?.padding * 2,
+            backgroundColor: COLORS?.primary,
+            borderRadius: SIZES?.radius,
+            alignItems: 'center',
+            justifyContent: 'center',
+            marginRight: SIZES?.padding,
+            ...styles?.shadow,
+          }}>
+          <View
+            style={{
+              width: 50,
+              height: 50,
+              borderRadius: 25,
+              backgroundColor: COLORS?.white,
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}></View>
+        </TouchableOpacity>
+      );
+    };
     return (
       <View style={{padding: SIZES?.padding}}>
         <Text style={{...FONTS.h1}}>{'Main\nCategories'}</Text>
+        <FlatList
+          data={categories}
+          keyExtractor={item => `${item?.id}`}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={{paddingVertical: SIZES?.padding * 2}}
+          renderItem={renderItem}
+        />
       </View>
     );
   }
