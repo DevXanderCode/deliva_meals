@@ -11,6 +11,20 @@ import {
 import {COLORS, icons, images, SIZES, FONTS} from '../constants';
 
 const Home = () => {
+  function renderHeader() {
+    return (
+      <View style={{flexDirection: 'row', height: 50}}>
+        <TouchableOpacity
+          style={{
+            width: 50,
+            paddingLeft: SIZES?.padding,
+            justifyContent: 'center',
+          }}>
+          <Image source={icons.nearby} />
+        </TouchableOpacity>
+      </View>
+    );
+  }
   return (
     <SafeAreaView style={styles?.container}>{renderHeader()}</SafeAreaView>
   );
