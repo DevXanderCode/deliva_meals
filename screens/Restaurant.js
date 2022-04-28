@@ -62,7 +62,48 @@ const Restaurant = ({navigation, route}) => {
   }
 
   function renderFoodInfo() {
-    return <Animated.ScrollView></Animated.ScrollView>;
+    return (
+      <Animated.ScrollView
+        horizontal
+        pagingEnabled
+        scrollEventThrottle={16}
+        snapToAlignment="center"
+        showsHorizontalScrollIndicator={false}>
+        {restaurant?.menu?.map((item, index) => (
+          <View key={`menu-${index}`} style={{alignItems: 'center'}}>
+            <View style={{height: SIZES.height * 0.35}}>
+              <Image
+                source={item.photo}
+                resizeMode="cover"
+                style={{width: SIZES.width, height: '100%'}}
+              />
+
+              <View
+                style={{
+                  position: 'absolute',
+                  bottom: -20,
+                  width: SIZES.width,
+                  height: 50,
+                  justifyContent: 'center',
+                  flexDirection: 'row',
+                }}>
+                <TouchableOpacity
+                  style={{
+                    width: 50,
+                    backgroundColor: COLORS.white,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    borderTopLeftRadius: 25,
+                    borderBottomLeftRadius: 25,
+                  }}>
+                  <Text style={FONTS.body1}>-</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+        ))}
+      </Animated.ScrollView>
+    );
   }
 
   return (
