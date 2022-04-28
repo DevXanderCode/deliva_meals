@@ -61,10 +61,14 @@ const Restaurant = ({navigation, route}) => {
     );
   }
 
+  function renderFoodInfo() {
+    return <Animated.ScrollView></Animated.ScrollView>;
+  }
+
   return (
     <SafeAreaView style={styles?.container}>
       {renderHeader()}
-      {/* <Text>header</Text> */}
+      {renderFoodInfo()}
     </SafeAreaView>
   );
 };
