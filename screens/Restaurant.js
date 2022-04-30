@@ -13,6 +13,7 @@ import {isIphoneX} from 'react-native-iphone-x-helper';
 import {Icons, COLORS, SIZES, FONTS, icons} from '../constants';
 
 const Restaurant = ({navigation, route}) => {
+  const scrollX = new Animated.Value(0);
   const [restaurant, setRestaurant] = React.useState(null);
   const [currentLocation, setCurrentLocation] = React.useState(null);
 
@@ -148,6 +149,14 @@ const Restaurant = ({navigation, route}) => {
         ))}
       </Animated.ScrollView>
     );
+  }
+
+  function renderDots() {
+    return <View></View>;
+  }
+
+  function renderOrder() {
+    return renderDots();
   }
 
   return (
