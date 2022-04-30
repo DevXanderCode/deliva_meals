@@ -64,6 +64,18 @@ const Restaurant = ({navigation, route}) => {
     return 0;
   }
 
+  function getBasketItemCount() {
+    let itemCount = orderItems.reduce((a, b) => a + (b?.qty || 0), 0);
+
+    return itemCount.toLocaleString('en');
+  }
+
+  function sumOrder() {
+    let total = orderItems.reduce((a, b) => a + (b?.total || 0), 0);
+
+    return total.toFixed(2).toLocaleString('en');
+  }
+
   function renderHeader() {
     return (
       <View style={{flexDirection: 'row', height: 50}}>
@@ -253,8 +265,8 @@ const Restaurant = ({navigation, route}) => {
         {renderDots()}
         <View style={styles?.orderContainer}>
           <View style={styles?.itemDetails}>
-            <Text style={FONTS.h3}>items in cart</Text>
-            <Text style={FONTS.h3}>$45</Text>
+            <Text style={FONTS.h3}>{getBasketItemCount()} items in cart</Text>
+            <Text style={FONTS.h3}>${sumOrder()}</Text>
           </View>
 
           <View style={styles?.orderHeader}>
