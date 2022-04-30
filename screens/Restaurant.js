@@ -42,8 +42,17 @@ const Restaurant = ({navigation, route}) => {
         };
         orderList.push(newItem);
       }
+      setOrderItems(orderList);
+    } else {
+      if (item?.length > 0) {
+        if (item[0]?.qty > 0) {
+          let newQty = item[0]?.qty - 1;
+          item[0].qty = newQty;
+          item[0].total = newQty * price;
+        }
+      }
+      setOrderItems(orderList);
     }
-    setOrderItems(orderList);
   }
 
   function getOrderQty(menuId) {
@@ -131,6 +140,9 @@ const Restaurant = ({navigation, route}) => {
                     justifyContent: 'center',
                     borderTopLeftRadius: 25,
                     borderBottomLeftRadius: 25,
+                  }}
+                  onPress={() => {
+                    editOrder('-', item?.menuId, item?.price);
                   }}>
                   <Text style={FONTS.body1}>-</Text>
                 </TouchableOpacity>
