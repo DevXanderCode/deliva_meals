@@ -98,7 +98,51 @@ const Restaurant = ({navigation, route}) => {
                   }}>
                   <Text style={FONTS.body1}>-</Text>
                 </TouchableOpacity>
+                <View
+                  style={{
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    width: 50,
+                    backgroundColor: COLORS.white,
+                  }}>
+                  <Text style={FONTS.h2}>5</Text>
+                </View>
+                <TouchableOpacity
+                  style={{
+                    width: 50,
+                    backgroundColor: COLORS.white,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    borderTopRightRadius: 25,
+                    borderBottomRightRadius: 25,
+                  }}>
+                  <Text style={FONTS.body1}>+</Text>
+                </TouchableOpacity>
               </View>
+            </View>
+
+            <View
+              style={{
+                width: SIZES.width,
+                alignItems: 'center',
+                marginTop: 15,
+                paddingHorizontal: SIZES.padding * 2,
+              }}>
+              <Text
+                style={{marginVertical: 10, textAlign: 'center', ...FONTS.h2}}>
+                {item?.name} - {item.price.toFixed(2)}
+              </Text>
+              <Text style={FONTS.body3}>{item?.description}</Text>
+            </View>
+
+            <View style={{flexDirection: 'row', marginTop: 10}}>
+              <Image
+                source={icons.fire}
+                style={{width: 20, height: 20, marginRight: 10}}
+              />
+              <Text style={{...FONTS?.body3, color: COLORS.darkgray}}>
+                {item?.calories.toFixed(2)} Cal
+              </Text>
             </View>
           </View>
         ))}
