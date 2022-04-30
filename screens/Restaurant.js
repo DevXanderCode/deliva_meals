@@ -16,6 +16,7 @@ const Restaurant = ({navigation, route}) => {
   const scrollX = new Animated.Value(0);
   const [restaurant, setRestaurant] = React.useState(null);
   const [currentLocation, setCurrentLocation] = React.useState(null);
+  const [orderItems, setOrderItems] = React.useState([]);
 
   React.useEffect(() => {
     let {item, currentLocation} = route?.params;
@@ -23,6 +24,36 @@ const Restaurant = ({navigation, route}) => {
     setRestaurant(item);
     setCurrentLocation(currentLocation);
   }, [route?.params]);
+
+  function editOrder(action, menuId, price) {
+    let orderList = orderItems.slice(); //duplicates the order items using slice method
+    let item = orderList.filter(a => a?.menuId === menuId);
+    if (action === '+') {
+      if (item?.length > 0) {
+        let newQty = item[0].qty + 1;
+        item[0].qty = newQty;
+        item[0].total = item[0].qty * price;
+      } else {
+        const newItem = {
+          menuId,
+          qty: 1,
+          price,
+          total: price,
+        };
+        orderList.push(newItem);
+      }
+    }
+    setOrderItems(orderList);
+  }
+
+  function getOrderQty(menuId) {
+    let orderItem = orderItems.filter(a => a.menuId === menuId);
+
+    if (orderItem?.length > 0) {
+      return orderItem[0]?.qty;
+    }
+    return 0;
+  }
 
   function renderHeader() {
     return (
@@ -90,7 +121,7 @@ const Restaurant = ({navigation, route}) => {
                   width: SIZES.width,
                   height: 50,
                   justifyContent: 'center',
-                  flexDirection: 'row',
+                  ...styles?.flexRow,
                 }}>
                 <TouchableOpacity
                   style={{
@@ -110,9 +141,12 @@ const Restaurant = ({navigation, route}) => {
                     width: 50,
                     backgroundColor: COLORS.white,
                   }}>
-                  <Text style={FONTS.h2}>5</Text>
+                  <Text style={FONTS.h2}>{getOrderQty(item.menuId)}</Text>
                 </View>
                 <TouchableOpacity
+                  onPress={() => {
+                    editOrder('+', item?.menuId, item?.price);
+                  }}
                   style={{
                     width: 50,
                     backgroundColor: COLORS.white,
@@ -140,7 +174,7 @@ const Restaurant = ({navigation, route}) => {
               <Text style={FONTS.body3}>{item?.description}</Text>
             </View>
 
-            <View style={{flexDirection: 'row', marginTop: 10}}>
+            <View style={{...styles?.flexRow, marginTop: 10}}>
               <Image
                 source={icons.fire}
                 style={{width: 20, height: 20, marginRight: 10}}
