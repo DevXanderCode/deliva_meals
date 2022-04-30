@@ -69,7 +69,11 @@ const Restaurant = ({navigation, route}) => {
         pagingEnabled
         scrollEventThrottle={16}
         snapToAlignment="center"
-        showsHorizontalScrollIndicator={false}>
+        showsHorizontalScrollIndicator={false}
+        onScroll={Animated.event(
+          [{nativeEvent: {contentOffset: {x: scrollX}}}],
+          {useNativeDriver: false},
+        )}>
         {restaurant?.menu?.map((item, index) => (
           <View key={`menu-${index}`} style={{alignItems: 'center'}}>
             <View style={{height: SIZES.height * 0.35}}>
@@ -152,7 +156,55 @@ const Restaurant = ({navigation, route}) => {
   }
 
   function renderDots() {
-    return <View></View>;
+    const dotPosition = Animated.divide(scrollX, SIZES.width);
+    return (
+      <View style={styles?.dotsContainer}>
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+            height: SIZES.padding,
+          }}>
+          {restaurant?.menu.map((item, index) => {
+            const opacity = dotPosition.interpolate({
+              inputRange: [index - 1, index, index + 1],
+              outputRange: [0.3, 1, 0.3],
+              extrapolate: 'clamp',
+            });
+
+            const dotSize = dotPosition.interpolate({
+              inputRange: [index - 1, index, index + 1],
+              outputRange: [SIZES.base * 0.8, 10, SIZES.base * 0.8],
+              extrapolate: 'clamp',
+            });
+
+            const dotColor = dotPosition.interpolate({
+              inputRange: [index - 1, index, index + 1],
+              outputRange: [
+                COLORS?.darkgray,
+                COLORS?.primary,
+                COLORS?.darkgray,
+              ],
+              extrapolate: 'clamp',
+            });
+
+            return (
+              <Animated.View
+                opacity={opacity}
+                key={`dot-${index}`}
+                style={{
+                  ...styles?.dotStyle,
+                  backgroundColor: dotColor,
+                  width: dotSize,
+                  height: dotSize,
+                }}
+              />
+            );
+          })}
+        </View>
+      </View>
+    );
   }
 
   function renderOrder() {
@@ -163,6 +215,7 @@ const Restaurant = ({navigation, route}) => {
     <SafeAreaView style={styles?.container}>
       {renderHeader()}
       {renderFoodInfo()}
+      {renderOrder()}
     </SafeAreaView>
   );
 };
@@ -176,6 +229,13 @@ const styles = StyleSheet.create({
     width: 30,
     height: 30,
     resizeMode: 'contain',
+  },
+  dotsContainer: {
+    height: 30,
+  },
+  dotStyle: {
+    borderRadius: SIZES.radius,
+    marginHorizontal: 6,
   },
 });
 
