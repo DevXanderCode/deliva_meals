@@ -159,13 +159,7 @@ const Restaurant = ({navigation, route}) => {
     const dotPosition = Animated.divide(scrollX, SIZES.width);
     return (
       <View style={styles?.dotsContainer}>
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'center',
-            height: SIZES.padding,
-          }}>
+        <View style={styles?.dotSubContainer}>
           {restaurant?.menu.map((item, index) => {
             const opacity = dotPosition.interpolate({
               inputRange: [index - 1, index, index + 1],
@@ -208,7 +202,49 @@ const Restaurant = ({navigation, route}) => {
   }
 
   function renderOrder() {
-    return renderDots();
+    return (
+      <View>
+        {renderDots()}
+        <View style={styles?.orderContainer}>
+          <View style={styles?.itemDetails}>
+            <Text style={FONTS.h3}>items in cart</Text>
+            <Text style={FONTS.h3}>$45</Text>
+          </View>
+
+          <View style={styles?.orderHeader}>
+            <View style={styles.flexRow}>
+              <Image
+                source={icons?.pin}
+                resizeMode="contain"
+                style={styles.iconImg}
+              />
+
+              <Text style={{marginLeft: SIZES.padding, ...FONTS.h4}}>
+                Location
+              </Text>
+            </View>
+            <View style={styles?.flexRow}>
+              <Image
+                resizeMode="contain"
+                source={icons.master_card}
+                style={styles?.iconImg}
+              />
+              <Text style={{marginLeft: SIZES.padding, ...FONTS.h4}}>
+                67890
+              </Text>
+            </View>
+          </View>
+
+          {/* order Button */}
+          <View style={styles?.orderBtnContainer}>
+            <TouchableOpacity style={styles.orderBtn}>
+              <Text style={{color: COLORS.white, ...FONTS.h2}}>Order</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+        {isIphoneX() && <View style={styles?.emptyView} />}
+      </View>
+    );
   }
 
   return (
@@ -236,6 +272,58 @@ const styles = StyleSheet.create({
   dotStyle: {
     borderRadius: SIZES.radius,
     marginHorizontal: 6,
+  },
+  dotSubContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: SIZES.padding,
+  },
+  emptyView: {
+    position: 'absolute',
+    bottom: -34,
+    left: 0,
+    right: 0,
+    height: 34,
+    backgroundColor: COLORS.white,
+  },
+  orderBtn: {
+    width: SIZES.width * 0.9,
+    padding: SIZES.padding,
+    backgroundColor: COLORS.primary,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: SIZES.radius,
+  },
+  orderBtnContainer: {
+    padding: SIZES.padding * 2,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  iconImg: {
+    width: 20,
+    height: 20,
+    tintColor: COLORS.darkgray,
+  },
+  flexRow: {flexDirection: 'row'},
+  orderHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingVertical: SIZES.padding * 2,
+    paddingHorizontal: SIZES.padding * 3,
+  },
+  orderContainer: {
+    backgroundColor: COLORS.white,
+    borderTopLeftRadius: 40,
+    borderTopRightRadius: 40,
+  },
+  itemDetails: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingVertical: SIZES.padding * 2,
+    paddingHorizontal: SIZES.padding * 3,
+    borderBottomColor: COLORS.lightGray2,
+    borderBottomWidth: 1,
   },
 });
 
