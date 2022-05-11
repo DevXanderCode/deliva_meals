@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import {isIphoneX} from 'react-native-iphone-x-helper';
 
-import {Icons, COLORS, SIZES, FONTS, icons} from '../constants';
+import {COLORS, SIZES, FONTS, icons} from '../constants';
 
 const Restaurant = ({navigation, route}) => {
   const scrollX = new Animated.Value(0);
@@ -19,6 +19,7 @@ const Restaurant = ({navigation, route}) => {
   const [orderItems, setOrderItems] = React.useState([]);
 
   React.useEffect(() => {
+    // eslint-disable-next-line no-shadow
     let {item, currentLocation} = route?.params;
 
     setRestaurant(item);
@@ -78,36 +79,18 @@ const Restaurant = ({navigation, route}) => {
 
   function renderHeader() {
     return (
-      <View style={{flexDirection: 'row', height: 50}}>
+      <View style={styles?.headerContainer}>
         <TouchableOpacity
-          style={{
-            width: 50,
-            justifyContent: 'center',
-            paddingLeft: SIZES?.padding * 2,
-          }}
+          style={styles?.goBackIcon}
           onPress={() => navigation.goBack()}>
           <Image source={icons.back} style={styles?.headerImg} />
         </TouchableOpacity>
-        <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-          <View
-            style={{
-              height: 50,
-              alignItems: 'center',
-              justifyContent: 'center',
-              paddingHorizontal: SIZES?.padding * 3,
-              borderRadius: SIZES?.radius,
-              backgroundColor: COLORS?.lightGray3,
-            }}>
+        <View style={styles?.restaurantNameContainer}>
+          <View style={styles?.restaurantName}>
             <Text style={FONTS.h3}>{restaurant?.name}</Text>
           </View>
         </View>
-        <TouchableOpacity
-          style={{
-            width: 50,
-            justifyContent: 'center',
-            paddingRight: SIZES.padding * 2,
-          }}
-          onPress={() => {}}>
+        <TouchableOpacity style={styles?.headerLeftIcon} onPress={() => {}}>
           <Image source={icons.list} style={styles.headerImg} />
         </TouchableOpacity>
       </View>
@@ -134,7 +117,6 @@ const Restaurant = ({navigation, route}) => {
                 resizeMode="cover"
                 style={{width: SIZES.width, height: '100%'}}
               />
-
               <View
                 style={{
                   position: 'absolute',
@@ -145,40 +127,20 @@ const Restaurant = ({navigation, route}) => {
                   ...styles?.flexRow,
                 }}>
                 <TouchableOpacity
-                  style={{
-                    width: 50,
-                    backgroundColor: COLORS.white,
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    borderTopLeftRadius: 25,
-                    borderBottomLeftRadius: 25,
-                  }}
+                  style={styles?.orderReduction}
                   onPress={() => {
                     editOrder('-', item?.menuId, item?.price);
                   }}>
                   <Text style={FONTS.body1}>-</Text>
                 </TouchableOpacity>
-                <View
-                  style={{
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    width: 50,
-                    backgroundColor: COLORS.white,
-                  }}>
+                <View style={styles?.orderCount}>
                   <Text style={FONTS.h2}>{getOrderQty(item.menuId)}</Text>
                 </View>
                 <TouchableOpacity
                   onPress={() => {
                     editOrder('+', item?.menuId, item?.price);
                   }}
-                  style={{
-                    width: 50,
-                    backgroundColor: COLORS.white,
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    borderTopRightRadius: 25,
-                    borderBottomRightRadius: 25,
-                  }}>
+                  style={styles?.orderIncrement}>
                   <Text style={FONTS.body1}>+</Text>
                 </TouchableOpacity>
               </View>
@@ -389,6 +351,56 @@ const styles = StyleSheet.create({
     paddingHorizontal: SIZES.padding * 3,
     borderBottomColor: COLORS.lightGray2,
     borderBottomWidth: 1,
+  },
+  orderReduction: {
+    width: 50,
+    backgroundColor: COLORS.white,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderTopLeftRadius: 25,
+    borderBottomLeftRadius: 25,
+  },
+  orderIncrement: {
+    width: 50,
+    backgroundColor: COLORS.white,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderTopRightRadius: 25,
+    borderBottomRightRadius: 25,
+  },
+  orderCount: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 50,
+    backgroundColor: COLORS.white,
+  },
+  headerContainer: {
+    flexDirection: 'row',
+    height: 50,
+    marginVertical: SIZES.padding,
+  },
+  restaurantName: {
+    height: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: SIZES?.padding * 3,
+    borderRadius: SIZES?.radius,
+    backgroundColor: COLORS?.lightGray3,
+  },
+  headerLeftIcon: {
+    width: 50,
+    justifyContent: 'center',
+    paddingRight: SIZES.padding * 2,
+  },
+  goBackIcon: {
+    width: 50,
+    justifyContent: 'center',
+    paddingLeft: SIZES?.padding * 2,
+  },
+  restaurantNameContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
 
