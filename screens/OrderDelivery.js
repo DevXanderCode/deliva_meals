@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, Image, TouchableOpacity} from 'react-native';
+import {View, Text, Image, TouchableOpacity, StyleSheet} from 'react-native';
 import MapView, {PROVIDER_GOOGLE, Marker} from 'react-native-maps';
 import {COLORS, FONTS, icons, SIZES, GOOGLE_API_KEY} from '../constants';
 
@@ -30,7 +30,17 @@ const OrderDelivery = ({navigation, route}) => {
     setToLocation(toLoc);
     setRegion(mapRegion);
   }, [route?.params]);
+
   function renderMap() {
+    const destinationMarker = () => (
+      <Marker coordinate={toLocation}>
+        <View style={styles?.markerContainer}>
+          <View style={[styles?.markerView, {borderRadius: 20}]}>
+            <Image source={icons?.pin} style={styles?.markerIcon} />
+          </View>
+        </View>
+      </Marker>
+    );
     return (
       <View style={{flex: 1}}>
         <MapView
@@ -38,16 +48,37 @@ const OrderDelivery = ({navigation, route}) => {
           initialRegion={region}
           style={{
             flex: 1,
-          }}></MapView>
+          }}>
+          {destinationMarker()}
+        </MapView>
       </View>
     );
   }
-  return (
-    <View style={{flex: 1}}>
-      {renderMap()}
-      {/* <Text>Order Delivery</Text> */}
-    </View>
-  );
+  return <View style={{flex: 1}}>{renderMap()}</View>;
 };
+
+const styles = StyleSheet.create({
+  markerContainer: {
+    height: 40,
+    width: 40,
+    borderRadius: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: COLORS?.white,
+  },
+  markerView: {
+    height: 30,
+    width: 30,
+    borderRadius: 15,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: COLORS?.primary,
+  },
+  markerIcon: {
+    width: 25,
+    height: 25,
+    tintColor: COLORS?.white,
+  },
+});
 
 export default OrderDelivery;
