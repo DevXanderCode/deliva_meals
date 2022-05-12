@@ -23,6 +23,8 @@ const OrderDelivery = ({navigation, route}) => {
     let toLoc = restaurant?.location;
     let street = currentLocation?.streetName;
 
+    console.log('Street', street);
+
     let mapRegion = {
       latitude: (fromLoc?.latitude + toLoc?.latitude) / 2,
       longitude: (fromLoc?.longitude + toLoc?.longitude) / 2,
@@ -120,7 +122,27 @@ const OrderDelivery = ({navigation, route}) => {
     );
   }
 
-  return <View style={{flex: 1}}>{renderMap()}</View>;
+  function renderDestinationHeader() {
+    return (
+      <View style={styles?.headerContainer}>
+        <View style={styles?.headerInnerContainer}>
+          <Image source={icons.red_pin} style={styles?.headerImg} />
+          <View style={{flex: 1}}>
+            <Text style={FONTS.body3}>{streetName}</Text>
+          </View>
+
+          <Text style={FONTS.body3}>{Math.ceil(duration)} mins</Text>
+        </View>
+      </View>
+    );
+  }
+
+  return (
+    <View style={{flex: 1}}>
+      {renderMap()}
+      {renderDestinationHeader()}
+    </View>
+  );
 };
 
 const styles = StyleSheet.create({
@@ -148,6 +170,29 @@ const styles = StyleSheet.create({
   carIcon: {
     width: 40,
     height: 40,
+  },
+  headerContainer: {
+    position: 'absolute',
+    top: 50,
+    left: 0,
+    right: 0,
+    height: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  headerInnerContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: SIZES.width * 0.9,
+    paddingVertical: SIZES.padding,
+    paddingHorizontal: SIZES.padding * 2,
+    borderRadius: SIZES.radius,
+    backgroundColor: COLORS.white,
+  },
+  headerImg: {
+    width: 30,
+    height: 30,
+    marginRight: SIZES.padding,
   },
 });
 
