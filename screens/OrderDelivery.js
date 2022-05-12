@@ -23,8 +23,6 @@ const OrderDelivery = ({navigation, route}) => {
     let toLoc = restaurant?.location;
     let street = currentLocation?.streetName;
 
-    console.log('Street', street);
-
     let mapRegion = {
       latitude: (fromLoc?.latitude + toLoc?.latitude) / 2,
       longitude: (fromLoc?.longitude + toLoc?.longitude) / 2,
@@ -197,11 +195,27 @@ const OrderDelivery = ({navigation, route}) => {
     );
   }
 
+  function renderZoomButtons() {
+    return (
+      <View style={styles?.zoomBtnContainer}>
+        {/* Zoom in */}
+        <TouchableOpacity onPress={() => {}} style={styles?.zoomBtn}>
+          <Text style={FONTS?.body1}>+</Text>
+        </TouchableOpacity>
+        {/* zoom out */}
+        <TouchableOpacity onPress={() => {}} style={styles?.zoomBtn}>
+          <Text style={FONTS?.body1}>-</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
+
   return (
     <View style={{flex: 1}}>
       {renderMap()}
       {renderDestinationHeader()}
       {renderDeliveryInfo()}
+      {renderZoomButtons()}
     </View>
   );
 };
@@ -292,6 +306,22 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 10,
+  },
+  zoomBtnContainer: {
+    position: 'absolute',
+    bottom: SIZES.height * 0.35,
+    right: SIZES.padding * 2,
+    width: 60,
+    height: 130,
+    justifyContent: 'space-between',
+  },
+  zoomBtn: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    backgroundColor: COLORS.white,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
 
