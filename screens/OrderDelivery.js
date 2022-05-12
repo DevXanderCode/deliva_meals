@@ -38,14 +38,38 @@ const OrderDelivery = ({navigation, route}) => {
   }, [route?.params]);
 
   function calculateAngle(coordinates) {
-    let startLat = coordinates[0]['latitude'];
-    let startLng = coordinates[0]['longitude'];
-    let endLat = coordinates[1]['latitude'];
-    let endLng = coordinates[1]['longitude'];
+    let startLat = coordinates[0].latitude;
+    let startLng = coordinates[0].longitude;
+    let endLat = coordinates[1].latitude;
+    let endLng = coordinates[1].longitude;
     let dx = endLat - startLat;
     let dy = endLng - startLng;
 
     return (Math.atan2(dy, dx) * 180) / Math.PI;
+  }
+
+  function zoomIn() {
+    let newRegion = {
+      latitude: region?.latitude,
+      longitude: region?.longitude,
+      latitudeDelta: region?.latitudeDelta / 2,
+      longitudeDelta: region?.longitudeDelta / 2,
+    };
+
+    setRegion(newRegion);
+    mapView.current.animateToRegion(newRegion, 200);
+  }
+
+  function zoomOut() {
+    let newRegion = {
+      latitude: region?.latitude,
+      longitude: region?.longitude,
+      latitudeDelta: region?.latitudeDelta * 2,
+      longitudeDelta: region?.longitudeDelta * 2,
+    };
+
+    setRegion(newRegion);
+    mapView.current.animateToRegion(newRegion, 200);
   }
 
   function renderMap() {
@@ -199,11 +223,11 @@ const OrderDelivery = ({navigation, route}) => {
     return (
       <View style={styles?.zoomBtnContainer}>
         {/* Zoom in */}
-        <TouchableOpacity onPress={() => {}} style={styles?.zoomBtn}>
+        <TouchableOpacity onPress={() => zoomIn()} style={styles?.zoomBtn}>
           <Text style={FONTS?.body1}>+</Text>
         </TouchableOpacity>
         {/* zoom out */}
-        <TouchableOpacity onPress={() => {}} style={styles?.zoomBtn}>
+        <TouchableOpacity onPress={() => zoomOut()} style={styles?.zoomBtn}>
           <Text style={FONTS?.body1}>-</Text>
         </TouchableOpacity>
       </View>
