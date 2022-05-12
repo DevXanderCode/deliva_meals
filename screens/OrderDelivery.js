@@ -14,6 +14,8 @@ const OrderDelivery = ({navigation, route}) => {
   const [isReady, setIsReady] = React.useState(false);
   const [angle, setAngle] = React.useState(0);
 
+  const mapView = React.useRef();
+
   React.useEffect(() => {
     let {restaurant, currentLocation} = route?.params;
 
@@ -35,6 +37,17 @@ const OrderDelivery = ({navigation, route}) => {
     setRegion(mapRegion);
   }, [route?.params]);
 
+  function calculateAngle(coordinates) {
+    let startLat = coordinates[0]['latitude'];
+    let startLng = coordinates[0]['longitude'];
+    let endLat = coordinates[1]['latitude'];
+    let endLng = coordinates[1]['longitude'];
+    let dx = endLat - startLat;
+    let dy = endLng - startLng;
+
+    return (Math.atan2(dy, dx) * 180) / Math.PI;
+  }
+
   function renderMap() {
     const destinationMarker = () => (
       <Marker coordinate={toLocation}>
@@ -47,13 +60,18 @@ const OrderDelivery = ({navigation, route}) => {
     );
 
     const carIcon = () => (
-      <Marker coordinate={fromLocation} anchor={{x: 0.5, y: 0.5}} flat={true}>
+      <Marker
+        coordinate={fromLocation}
+        anchor={{x: 0.5, y: 0.5}}
+        flat={true}
+        rotation={angle}>
         <Image source={icons?.car} style={styles?.carIcon} />
       </Marker>
     );
     return (
       <View style={{flex: 1}}>
         <MapView
+          ref={mapView}
           provider={PROVIDER_GOOGLE}
           initialRegion={region}
           style={{
@@ -68,6 +86,31 @@ const OrderDelivery = ({navigation, route}) => {
             optimizeWaypoints={true}
             onReady={result => {
               setDuration(result?.duration);
+              if (!isReady) {
+                // fit route into map
+                mapView.current.fitToCoordinates(result?.coordinates, {
+                  edgePadding: {
+                    right: SIZES.width / 20,
+                    bottom: SIZES.height / 4,
+                    left: SIZES.width / 20,
+                    top: SIZES.height / 8,
+                  },
+                });
+
+                // reposition the car
+                let nextLoc = {
+                  latitude: result?.coordinates[0].latitude,
+                  longitude: result?.coordinates[0].longitude,
+                };
+
+                if (result.coordinates.length >= 2) {
+                  let angle = calculateAngle(result.coordinates);
+                  setAngle(angle);
+                }
+
+                setFromLocation(nextLoc);
+                setIsReady(true);
+              }
             }}
           />
           {destinationMarker()}
@@ -76,6 +119,7 @@ const OrderDelivery = ({navigation, route}) => {
       </View>
     );
   }
+
   return <View style={{flex: 1}}>{renderMap()}</View>;
 };
 
