@@ -137,10 +137,71 @@ const OrderDelivery = ({navigation, route}) => {
     );
   }
 
+  function renderDeliveryInfo() {
+    return (
+      <View style={styles?.deliveryCardContainer}>
+        <View style={styles?.deliveryCardInnerContainer}>
+          <View style={styles?.rowFlex}>
+            {/* Avatar */}
+            <Image
+              source={restaurant?.courier?.avatar}
+              style={styles?.avatar}
+            />
+
+            <View style={{flex: 1, marginLeft: SIZES.padding}}>
+              {/* Name and rating */}
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                }}>
+                <Text style={FONTS.h4}>{restaurant?.courier?.name}</Text>
+
+                <View style={{flexDirection: 'row'}}>
+                  <Image source={icons.star} style={styles?.starImg} />
+                  <Text style={FONTS.body3}>{restaurant?.rating}</Text>
+                </View>
+              </View>
+
+              {/* Restaurant Name */}
+              <Text style={{color: COLORS?.darkgray, ...FONTS?.body4}}>
+                {restaurant?.name}
+              </Text>
+            </View>
+          </View>
+
+          {/* Buttons */}
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              marginTop: SIZES.padding * 2,
+            }}>
+            <TouchableOpacity
+              style={[
+                styles?.btnStyle,
+                {backgroundColor: COLORS.primary, marginRight: 10},
+              ]}
+              onPress={() => navigation.navigate('Home')}>
+              <Text style={[{color: 'white', ...FONTS.h4}]}>Call</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={[styles?.btnStyle, {backgroundColor: COLORS.secondary}]}
+              onPress={() => navigation.goBack()}>
+              <Text style={[{color: 'white', ...FONTS.h4}]}>Cancel</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </View>
+    );
+  }
+
   return (
     <View style={{flex: 1}}>
       {renderMap()}
       {renderDestinationHeader()}
+      {renderDeliveryInfo()}
     </View>
   );
 };
@@ -193,6 +254,44 @@ const styles = StyleSheet.create({
     width: 30,
     height: 30,
     marginRight: SIZES.padding,
+  },
+  deliveryCardContainer: {
+    position: 'absolute',
+    bottom: 50,
+    right: 0,
+    left: 0,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  deliveryCardInnerContainer: {
+    width: SIZES.width * 0.9,
+    paddingVertical: SIZES.padding * 3,
+    paddingHorizontal: SIZES.padding * 2,
+    borderRadius: SIZES.radius,
+    backgroundColor: COLORS.white,
+  },
+  rowFlex: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  avatar: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+  },
+  starImg: {
+    width: 18,
+    height: 18,
+    tintColor: COLORS.primary,
+    marginRight: SIZES.padding,
+  },
+  btnStyle: {
+    height: 50,
+    // width: SIZES.width * 0.5 - SIZES.padding * 6,
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 10,
   },
 });
 
